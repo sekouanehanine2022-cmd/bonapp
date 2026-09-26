@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('recettes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
+            $table->foreignId('user_id')->constrained('utilisateurs')->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignId('categorie_id')->constrained('categories')->cascadeOnUpdate()->restrictOnDelete();
             $table->string('titre', 150);
             $table->text('description');
