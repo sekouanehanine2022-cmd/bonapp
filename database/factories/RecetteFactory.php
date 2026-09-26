@@ -23,7 +23,7 @@ class RecetteFactory extends Factory
             'description' => fake()->paragraph(),
             'ingredients' => "Farine\nEau\nSel",
             'instructions' => "Préparer les ingrédients.\nCuire la recette.\nServir.",
-            'image' => 'image/recette1.jpg',
+            'image' => null,
             'temps_preparation' => fake()->numberBetween(10, 90),
             'nombre_personnes' => fake()->numberBetween(1, 8),
             'difficulte' => fake()->randomElement(['facile', 'moyen', 'difficile']),

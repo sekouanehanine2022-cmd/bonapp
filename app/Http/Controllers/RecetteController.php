@@ -7,8 +7,8 @@ use App\Http\Requests\UpdateRecetteRequest;
 use App\Models\Categorie;
 use App\Models\Recette;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\File;
 use Illuminate\View\View;
 
 class RecetteController extends Controller
@@ -58,7 +58,7 @@ class RecetteController extends Controller
         $data['user_id'] = $request->user()->id;
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('recettes', 'public');
+            $data['image'] = $this->enregistrerImage($request->file('image'));
         }
 
         Recette::create($data);
@@ -81,8 +81,8 @@ class RecetteController extends Controller
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
-            $this->deleteStoredImage($recette);
-            $data['image'] = $request->file('image')->store('recettes', 'public');
+            $this->supprimerImage($recette);
+            $data['image'] = $this->enregistrerImage($request->file('image'));
         }
 
         $recette->update($data);
@@ -94,7 +94,7 @@ class RecetteController extends Controller
 
     public function destroy(Recette $recette): RedirectResponse
     {
-        $this->deleteStoredImage($recette);
+        $this->supprimerImage($recette);
         $recette->delete();
 
         return redirect()
@@ -102,10 +102,18 @@ class RecetteController extends Controller
             ->with('success', 'Recette supprimée avec succès.');
     }
 
-    private function deleteStoredImage(Recette $recette): void
+    private function enregistrerImage(UploadedFile $fichier): string
     {
-        if ($recette->image && ! Str::startsWith($recette->image, ['image/', 'http://', 'https://'])) {
-            Storage::disk('public')->delete($recette->image);
+        $nom = $fichier->hashName();
+        $fichier->move(public_path('image/recettes'), $nom);
+
+        return 'image/recettes/'.$nom;
+    }
+
+    private function supprimerImage(Recette $recette): void
+    {
+        if ($recette->image && str_starts_with($recette->image, 'image/recettes/')) {
+            File::delete(public_path($recette->image));
         }
     }
 }

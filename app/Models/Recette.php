@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Str;
 
 class Recette extends Model
 {
@@ -37,14 +36,6 @@ class Recette extends Model
 
     public function getImageUrlAttribute(): string
     {
-        if (! $this->image) {
-            return asset('image/recette1.jpg');
-        }
-
-        if (Str::startsWith($this->image, ['http://', 'https://', 'image/'])) {
-            return asset($this->image);
-        }
-
-        return asset('storage/'.$this->image);
+        return asset($this->image ?: 'image/logo_cuisine.png');
     }
 }

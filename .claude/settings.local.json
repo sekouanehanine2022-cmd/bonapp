@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(git ls-remote --heads https://github.com/sekouanehanine2022-cmd/bonapp)"
+    ]
+  }
+}
