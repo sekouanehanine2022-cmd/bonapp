@@ -8,13 +8,6 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('nom', 80);
-            $table->string('description')->nullable();
-            $table->timestamps();
-        });
-
         Schema::create('recettes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->restrictOnDelete();
@@ -35,6 +28,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('recettes');
-        Schema::dropIfExists('categories');
     }
 };
