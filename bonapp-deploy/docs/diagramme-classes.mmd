@@ -1,0 +1,34 @@
+classDiagram
+    class User {
+        id
+        name
+        email
+        password
+        role
+    }
+
+    class Categorie {
+        id
+        nom
+        description
+    }
+
+    class Recette {
+        id
+        user_id
+        categorie_id
+        titre
+        description
+        ingredients
+        instructions
+        image
+        temps_preparation
+        nombre_personnes
+        difficulte
+        statut
+    }
+
+    User "1" --> "*" Recette : possede
+    Categorie "1" --> "*" Recette : classe
+    Recette "*" --> "1" User : appartient a
+    Recette "*" --> "1" Categorie : appartient a

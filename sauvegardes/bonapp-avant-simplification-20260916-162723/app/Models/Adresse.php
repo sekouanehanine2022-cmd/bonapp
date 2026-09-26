@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Adresse extends Model
+{
+    protected $fillable = ['utilisateur_id', 'libelle', 'ligne1', 'ligne2', 'ville', 'code_postal', 'pays', 'principale'];
+
+    public function utilisateur(): BelongsTo
+    {
+        return $this->belongsTo(Utilisateur::class);
+    }
+}

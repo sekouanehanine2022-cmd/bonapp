@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagramme de classe - BonApp</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f6f3ef;
+            --surface: #ffffff;
+            --text: #221f1c;
+            --muted: #6f6760;
+            --line: #ded7cf;
+            --accent: #2f7d57;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--line);
+            background: var(--surface);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        p {
+            margin: 6px 0 0;
+            color: var(--muted);
+        }
+
+        button {
+            border: 0;
+            border-radius: 6px;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 12px 18px;
+            white-space: nowrap;
+        }
+
+        main {
+            padding: 24px;
+        }
+
+        .diagramme {
+            min-width: 1200px;
+            width: max-content;
+            margin: 0 auto;
+            padding: 24px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            overflow: auto;
+        }
+
+        .scroll-zone {
+            overflow: auto;
+            width: 100%;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header {
+                display: none;
+            }
+
+            main {
+                padding: 0;
+            }
+
+            .diagramme {
+                border: 0;
+                min-width: 0;
+                width: 100%;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <h1>Diagramme de classe BonApp</h1>
+            <p>Modèle complet : utilisateurs, recettes, interactions client, planification et liste de courses.</p>
+        </div>
+        <button type="button" onclick="window.print()">Imprimer / PDF</button>
+    </header>
+
+    <main>
+        <div class="scroll-zone">
+            <div class="diagramme">
+                <pre class="mermaid">
+classDiagram
+    class Role {
+        +int id
+        +string nom
+        +string description
+    }
+
+    class Utilisateur {
+        +int id
+        +int role_id
+        +string prenom
+        +string nom
+        +string email
+        +string mot_de_passe_hash
+        +string telephone
+        +string statut
+    }
+
+    class ProfilClient {
+        +int utilisateur_id
+        +date date_naissance
+        +string niveau_cuisine
+        +text bio
+        +text preferences_alimentaires
+    }
+
+    class Adresse {
+        +int id
+        +int utilisateur_id
+        +string libelle
+        +string ligne1
+        +string ville
+        +string code_postal
+        +string pays
+        +bool principale
+    }
+
+    class Recette {
+        +int id
+        +int auteur_id
+        +string titre
+        +string slug
+        +text description
+        +text ingredients
+        +text instructions
+        +string image
+        +string temps
+        +string personnes
+        +string type
+        +string niveau
+        +string statut
+    }
+
+    class Categorie {
+        +int id
+        +int parent_id
+        +string nom
+        +string slug
+        +string description
+    }
+
+    class RecetteCategorie {
+        +int recette_id
+        +int categorie_id
+    }
+
+    class IngredientCatalogue {
+        +int id
+        +string nom
+        +string slug
+        +string type
+    }
+
+    class Unite {
+        +int id
+        +string nom
+        +string abreviation
+    }
+
+    class RecetteIngredient {
+        +int id
+        +int recette_id
+        +int ingredient_id
+        +int unite_id
+        +decimal quantite
+        +string note
+        +int ordre
+    }
+
+    class EtapeRecette {
+        +int id
+        +int recette_id
+        +int numero
+        +text description
+        +int duree_min
+    }
+
+    class MediaRecette {
+        +int id
+        +int recette_id
+        +string url
+        +string type_media
+        +string texte_alternatif
+        +bool principale
+    }
+
+    class Allergene {
+        +int id
+        +string nom
+        +string description
+    }
+
+    class IngredientAllergene {
+        +int ingredient_id
+        +int allergene_id
+    }
+
+    class UtilisateurAllergene {
+        +int utilisateur_id
+        +int allergene_id
+    }
+
+    class Avis {
+        +int id
+        +int recette_id
+        +int utilisateur_id
+        +int note
+        +text commentaire
+    }
+
+    class Commentaire {
+        +int id
+        +int recette_id
+        +int utilisateur_id
+        +int parent_id
+        +text contenu
+        +string statut
+    }
+
+    class Favori {
+        +int utilisateur_id
+        +int recette_id
+    }
+
+    class Collection {
+        +int id
+        +int utilisateur_id
+        +string nom
+        +string description
+        +string visibilite
+    }
+
+    class CollectionRecette {
+        +int collection_id
+        +int recette_id
+    }
+
+    class Planification {
+        +int id
+        +int utilisateur_id
+        +string nom
+        +date date_debut
+        +date date_fin
+    }
+
+    class RepasPlanifie {
+        +int id
+        +int planification_id
+        +int recette_id
+        +date date_repas
+        +string type_repas
+        +int portions
+    }
+
+    class ListeCourses {
+        +int id
+        +int utilisateur_id
+        +int planification_id
+        +string nom
+        +string statut
+    }
+
+    class ListeCoursesItem {
+        +int id
+        +int liste_id
+        +int ingredient_id
+        +int unite_id
+        +string libelle
+        +decimal quantite
+        +bool coche
+    }
+
+    Role "1" --> "0..*" Utilisateur : possede
+    Utilisateur "1" --> "0..1" ProfilClient : complete
+    Utilisateur "1" --> "0..*" Adresse : possede
+    Utilisateur "1" --> "0..*" Recette : publie
+    Categorie "0..1" --> "0..*" Categorie : parent
+    Recette "1" --> "0..*" RecetteCategorie : classee_par
+    Categorie "1" --> "0..*" RecetteCategorie : contient
+    Recette "1" --> "0..*" RecetteIngredient : composee_de
+    IngredientCatalogue "1" --> "0..*" RecetteIngredient : utilise
+    Unite "1" --> "0..*" RecetteIngredient : mesure
+    Recette "1" --> "0..*" EtapeRecette : contient
+    Recette "1" --> "0..*" MediaRecette : illustree_par
+    IngredientCatalogue "1" --> "0..*" IngredientAllergene : expose
+    Allergene "1" --> "0..*" IngredientAllergene : concerne
+    Utilisateur "1" --> "0..*" UtilisateurAllergene : declare
+    Allergene "1" --> "0..*" UtilisateurAllergene : affecte
+    Recette "1" --> "0..*" Avis : recoit
+    Utilisateur "1" --> "0..*" Avis : ecrit
+    Recette "1" --> "0..*" Commentaire : recoit
+    Utilisateur "1" --> "0..*" Commentaire : ecrit
+    Commentaire "0..1" --> "0..*" Commentaire : reponses
+    Utilisateur "1" --> "0..*" Favori : sauvegarde
+    Recette "1" --> "0..*" Favori : est_sauvegardee
+    Utilisateur "1" --> "0..*" Collection : cree
+    Collection "1" --> "0..*" CollectionRecette : regroupe
+    Recette "1" --> "0..*" CollectionRecette : appartient
+    Utilisateur "1" --> "0..*" Planification : organise
+    Planification "1" --> "0..*" RepasPlanifie : contient
+    Recette "1" --> "0..*" RepasPlanifie : planifiee
+    Utilisateur "1" --> "0..*" ListeCourses : cree
+    Planification "0..1" --> "0..*" ListeCourses : genere
+    ListeCourses "1" --> "0..*" ListeCoursesItem : contient
+    IngredientCatalogue "0..1" --> "0..*" ListeCoursesItem : reference
+    Unite "0..1" --> "0..*" ListeCoursesItem : mesure
+                </pre>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: "base",
+            securityLevel: "loose",
+            themeVariables: {
+                primaryColor: "#fffaf3",
+                primaryTextColor: "#221f1c",
+                primaryBorderColor: "#8f7f70",
+                lineColor: "#3f6651",
+                secondaryColor: "#eef7f0",
+                tertiaryColor: "#ffffff",
+                fontFamily: "Arial, Helvetica, sans-serif"
+            }
+        });
+    </script>
+</body>
+</html>

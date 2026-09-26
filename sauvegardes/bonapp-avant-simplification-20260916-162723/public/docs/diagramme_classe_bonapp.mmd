@@ -1,0 +1,226 @@
+classDiagram
+    class Role {
+        +int id
+        +string nom
+        +string description
+    }
+
+    class Utilisateur {
+        +int id
+        +int role_id
+        +string prenom
+        +string nom
+        +string email
+        +string mot_de_passe_hash
+        +string telephone
+        +string statut
+    }
+
+    class ProfilClient {
+        +int utilisateur_id
+        +date date_naissance
+        +string niveau_cuisine
+        +text bio
+        +text preferences_alimentaires
+    }
+
+    class Adresse {
+        +int id
+        +int utilisateur_id
+        +string libelle
+        +string ligne1
+        +string ville
+        +string code_postal
+        +string pays
+        +bool principale
+    }
+
+    class Recette {
+        +int id
+        +int auteur_id
+        +string titre
+        +string slug
+        +text description
+        +text ingredients
+        +text instructions
+        +string image
+        +string temps
+        +string personnes
+        +string type
+        +string niveau
+        +string statut
+    }
+
+    class Categorie {
+        +int id
+        +int parent_id
+        +string nom
+        +string slug
+        +string description
+    }
+
+    class RecetteCategorie {
+        +int recette_id
+        +int categorie_id
+    }
+
+    class IngredientCatalogue {
+        +int id
+        +string nom
+        +string slug
+        +string type
+    }
+
+    class Unite {
+        +int id
+        +string nom
+        +string abreviation
+    }
+
+    class RecetteIngredient {
+        +int id
+        +int recette_id
+        +int ingredient_id
+        +int unite_id
+        +decimal quantite
+        +string note
+        +int ordre
+    }
+
+    class EtapeRecette {
+        +int id
+        +int recette_id
+        +int numero
+        +text description
+        +int duree_min
+    }
+
+    class MediaRecette {
+        +int id
+        +int recette_id
+        +string url
+        +string type_media
+        +string texte_alternatif
+        +bool principale
+    }
+
+    class Allergene {
+        +int id
+        +string nom
+        +string description
+    }
+
+    class IngredientAllergene {
+        +int ingredient_id
+        +int allergene_id
+    }
+
+    class UtilisateurAllergene {
+        +int utilisateur_id
+        +int allergene_id
+    }
+
+    class Avis {
+        +int id
+        +int recette_id
+        +int utilisateur_id
+        +int note
+        +text commentaire
+    }
+
+    class Commentaire {
+        +int id
+        +int recette_id
+        +int utilisateur_id
+        +int parent_id
+        +text contenu
+        +string statut
+    }
+
+    class Favori {
+        +int utilisateur_id
+        +int recette_id
+    }
+
+    class Collection {
+        +int id
+        +int utilisateur_id
+        +string nom
+        +string description
+        +string visibilite
+    }
+
+    class CollectionRecette {
+        +int collection_id
+        +int recette_id
+    }
+
+    class Planification {
+        +int id
+        +int utilisateur_id
+        +string nom
+        +date date_debut
+        +date date_fin
+    }
+
+    class RepasPlanifie {
+        +int id
+        +int planification_id
+        +int recette_id
+        +date date_repas
+        +string type_repas
+        +int portions
+    }
+
+    class ListeCourses {
+        +int id
+        +int utilisateur_id
+        +int planification_id
+        +string nom
+        +string statut
+    }
+
+    class ListeCoursesItem {
+        +int id
+        +int liste_id
+        +int ingredient_id
+        +int unite_id
+        +string libelle
+        +decimal quantite
+        +bool coche
+    }
+
+    Role "1" --> "0..*" Utilisateur
+    Utilisateur "1" --> "0..1" ProfilClient
+    Utilisateur "1" --> "0..*" Adresse
+    Utilisateur "1" --> "0..*" Recette : auteur
+    Categorie "0..1" --> "0..*" Categorie : parent
+    Recette "1" --> "0..*" RecetteCategorie
+    Categorie "1" --> "0..*" RecetteCategorie
+    Recette "1" --> "0..*" RecetteIngredient
+    IngredientCatalogue "1" --> "0..*" RecetteIngredient
+    Unite "1" --> "0..*" RecetteIngredient
+    Recette "1" --> "0..*" EtapeRecette
+    Recette "1" --> "0..*" MediaRecette
+    IngredientCatalogue "1" --> "0..*" IngredientAllergene
+    Allergene "1" --> "0..*" IngredientAllergene
+    Utilisateur "1" --> "0..*" UtilisateurAllergene
+    Allergene "1" --> "0..*" UtilisateurAllergene
+    Recette "1" --> "0..*" Avis
+    Utilisateur "1" --> "0..*" Avis
+    Recette "1" --> "0..*" Commentaire
+    Utilisateur "1" --> "0..*" Commentaire
+    Commentaire "0..1" --> "0..*" Commentaire : reponses
+    Utilisateur "1" --> "0..*" Favori
+    Recette "1" --> "0..*" Favori
+    Utilisateur "1" --> "0..*" Collection
+    Collection "1" --> "0..*" CollectionRecette
+    Recette "1" --> "0..*" CollectionRecette
+    Utilisateur "1" --> "0..*" Planification
+    Planification "1" --> "0..*" RepasPlanifie
+    Recette "1" --> "0..*" RepasPlanifie
+    Utilisateur "1" --> "0..*" ListeCourses
+    Planification "0..1" --> "0..*" ListeCourses
+    ListeCourses "1" --> "0..*" ListeCoursesItem
+    IngredientCatalogue "0..1" --> "0..*" ListeCoursesItem
+    Unite "0..1" --> "0..*" ListeCoursesItem

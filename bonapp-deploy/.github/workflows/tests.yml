@@ -1,0 +1,42 @@
+name: Tests Laravel BonApp
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    name: Exécuter les tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo_sqlite, sqlite
+          coverage: none
+
+      - name: Installer Composer
+        uses: ramsey/composer-install@v3
+
+      - name: Préparer l'environnement de test
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          touch database/database.sqlite
+
+      - name: Exécuter les migrations
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan migrate --force
+
+      - name: Lancer les tests
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: php artisan test
