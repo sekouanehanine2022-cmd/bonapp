@@ -124,7 +124,7 @@ class BonAppTest extends TestCase
         $response->assertRedirect(route('admin.recettes.index'));
         $this->assertDatabaseHas('recettes', [
             'titre' => 'Tarte aux pommes',
-            'user_id' => $admin->id,
+            'utilisateur_id' => $admin->id,
             'categorie_id' => $categorie->id,
         ]);
     }
@@ -133,7 +133,7 @@ class BonAppTest extends TestCase
     {
         // La modification met bien à jour les données en base de test.
         $admin = User::factory()->admin()->create();
-        $recette = Recette::factory()->create(['user_id' => $admin->id]);
+        $recette = Recette::factory()->create(['utilisateur_id' => $admin->id]);
         $nouvelleCategorie = Categorie::factory()->create();
 
         $response = $this->actingAs($admin)->put(route('admin.recettes.update', $recette), $this->donneesRecette([
@@ -154,7 +154,7 @@ class BonAppTest extends TestCase
     {
         // La suppression retire la recette de la base de test.
         $admin = User::factory()->admin()->create();
-        $recette = Recette::factory()->create(['user_id' => $admin->id]);
+        $recette = Recette::factory()->create(['utilisateur_id' => $admin->id]);
 
         $response = $this->actingAs($admin)->delete(route('admin.recettes.destroy', $recette));
 

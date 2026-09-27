@@ -11,7 +11,7 @@ class Recette extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'utilisateur_id',
         'categorie_id',
         'titre',
         'description',
@@ -26,7 +26,7 @@ class Recette extends Model
 
     public function utilisateur(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'utilisateur_id');
     }
 
     public function categorie(): BelongsTo

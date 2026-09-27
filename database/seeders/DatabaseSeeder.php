@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
             File::copy(database_path('seeders/images/'.$image), public_path('image/recettes/'.$image));
 
             Recette::create([
-                'user_id' => $admin->id,
+                'utilisateur_id' => $admin->id,
                 'categorie_id' => $categories[$categorieCle]->id,
                 'titre' => $titre,
                 'description' => $description,

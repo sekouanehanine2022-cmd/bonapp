@@ -3,7 +3,7 @@
 @section('title', 'BonApp - Recettes')
 
 @section('content')
-    {{-- en-tete de la page avec la barre de recherche --}}
+    <!-- en-tete de la page avec la barre de recherche -->
     <section class="section-header-recettes">
         <div class="section-titre">
             <h1>Toutes nos recettes</h1>
@@ -15,18 +15,17 @@
         </div>
     </section>
 
-    {{-- boutons des categories --}}
+    <!-- boutons des categories -->
     <div class="categories-globales">
         <button type="button" class="categorie-item actif" data-filtre="tous">Tous</button>
         @foreach ($categories as $categorie)
             <button type="button" class="categorie-item" data-filtre="{{ $categorie->id }}">{{ $categorie->nom }}</button>
         @endforeach
     </div>
-
-    {{-- liste des recettes --}}
+    <!-- liste des recettes -->
     <section class="section-grille container">
         <div class="grille-recettes">
-            {{-- boucle pour afficher une carte par recette --}}
+            <!-- boucle pour afficher une carte par recette -->
             @forelse ($recettes as $recette)
                 <article class="carte-recette" data-categorie="{{ $recette->categorie_id }}" data-titre="{{ \Illuminate\Support\Str::lower($recette->titre) }}">
                     <span class="badge-niveau {{ $recette->difficulte }}">{{ ucfirst($recette->difficulte) }}</span>
@@ -42,7 +41,7 @@
                     </div>
                 </article>
             @empty
-                {{-- si il n'y a pas de recette --}}
+                <!-- si il n'y a pas de recette -->
                 <p class="text-center text-muted grid-column-full">Aucune recette publiée pour le moment.</p>
             @endforelse
         </div>

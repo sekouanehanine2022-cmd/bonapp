@@ -17,7 +17,7 @@ class RecetteFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory()->admin(),
+            'utilisateur_id' => User::factory()->admin(),
             'categorie_id' => Categorie::factory(),
             'titre' => fake()->unique()->sentence(3),
             'description' => fake()->paragraph(),

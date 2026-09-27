@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     public function recettes(): HasMany
     {
-        return $this->hasMany(Recette::class);
+        return $this->hasMany(Recette::class, 'utilisateur_id');
     }
 
     public function estAdministrateur(): bool

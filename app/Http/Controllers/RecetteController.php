@@ -55,7 +55,7 @@ class RecetteController extends Controller
     public function store(StoreRecetteRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $data['user_id'] = $request->user()->id;
+        $data['utilisateur_id'] = $request->user()->id;
 
         if ($request->hasFile('image')) {
             $data['image'] = $this->enregistrerImage($request->file('image'));
